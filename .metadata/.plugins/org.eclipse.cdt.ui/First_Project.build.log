@@ -1,0 +1,17 @@
+21:06:05 **** Build of configuration Debug for project First_Project ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F446xx -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-g++ -o "First_Project.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\STM_WorkSpace\First_Project\STM32F446RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="First_Project.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: First_Project.elf
+ 
+arm-none-eabi-size  First_Project.elf 
+arm-none-eabi-objdump -h -S First_Project.elf  > "First_Project.list"
+   text	   data	    bss	    dec	    hex	filename
+   8552	     12	   1644	  10208	   27e0	First_Project.elf
+Finished building: default.size.stdout
+ 
+Finished building: First_Project.list
+ 
+
+21:06:20 Build Finished. 0 errors, 0 warnings. (took 15s.3ms)
+
