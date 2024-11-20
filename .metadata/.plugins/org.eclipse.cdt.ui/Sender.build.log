@@ -1,0 +1,41 @@
+23:35:15 **** Incremental Build of configuration Debug for project Sender ****
+make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:116:25: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+  116 |                         printf("Failed to transmit message");
+      |                         ^~~~~~
+../Core/Src/main.c:21:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   20 | #include "main.h"
+  +++ |+#include <stdio.h>
+   21 | 
+../Core/Src/main.c:116:25: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  116 |                         printf("Failed to transmit message");
+      |                         ^~~~~~
+../Core/Src/main.c:116:25: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c:126:33: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  126 |                                 printf("Receive unexpected feedback");
+      |                                 ^~~~~~
+../Core/Src/main.c:126:33: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c:130:25: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  130 |                         printf("Not receive feedback");
+      |                         ^~~~~~
+../Core/Src/main.c:130:25: note: include '<stdio.h>' or provide a declaration of 'printf'
+../Core/Src/main.c:134:17: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  134 |                 printf("Not Pressed");
+      |                 ^~~~~~
+../Core/Src/main.c:134:17: note: include '<stdio.h>' or provide a declaration of 'printf'
+arm-none-eabi-g++ -o "Sender.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\STM_WorkSpace\Sender\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Sender.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Sender.elf
+ 
+arm-none-eabi-size  Sender.elf 
+arm-none-eabi-objdump -h -S Sender.elf  > "Sender.list"
+   text	   data	    bss	    dec	    hex	filename
+  15644	    104	   1976	  17724	   453c	Sender.elf
+Finished building: default.size.stdout
+ 
+Finished building: Sender.list
+ 
+
+23:35:15 Build Finished. 0 errors, 5 warnings. (took 596ms)
+
