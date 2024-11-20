@@ -39,7 +39,7 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 
@@ -48,13 +48,22 @@ UART_HandleTypeDef huart2;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
+static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+//// error_code = 1: message is not sent correctly.
+//// error_code = 2: receive wrong feedback.
+//// error_code = 3: didn't receive feedback.
+//void log_error_to_flash(uint32_t error_code) {
+//    uint32_t address = 0x08080000;
+//    HAL_FLASH_Unlock();
+//    HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, address, error_code);
+//    HAL_FLASH_Lock();
+//}
 
 /* USER CODE END 0 */
 
@@ -87,7 +96,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -96,34 +105,38 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   const char sendData = 'H';
   char receiveData = '\0';
+
   while (1)
   {
+  	// send emergency signal
+  	if (HAL_GPIO_ReadPin(GPIOA, button_Pin) == GPIO_PIN_SET) {
+  		// if send incorrectly
+  		if (HAL_UART_Transmit(&huart1, (uint8_t*)&sendData, 1, 2000) != HAL_OK) {
+//  			log_error_to_flash(1);
+  			printf("Failed to transmit message");
+  		}
+  		// receive the feedback
+  		receiveData = '\0';
+  		if (HAL_UART_Receive(&huart1, (uint8_t*)&receiveData, 1, 60000) == HAL_OK) {
+  			if (receiveData == '1') {
+  				HAL_GPIO_WritePin(led_GPIO_Port, led_Pin, GPIO_PIN_SET);
+  				HAL_Delay(1000 * 60);
+  				HAL_GPIO_WritePin(led_GPIO_Port, led_Pin, GPIO_PIN_RESET);
+  			} else {
+  				printf("Receive unexpected feedback");
+//  				log_error_to_flash(2);
+  			}
+  		} else {
+  			printf("Not receive feedback");
+//  			log_error_to_flash(3);
+  		}
+  	} else {
+  		printf("Not Pressed");
+  	}
     /* USER CODE END WHILE */
-	  // send emergency signal
-	  if (HAL_GPIO_ReadPin(GPIOA, button_Pin) == GPIO_PIN_SET) {
-		  // if send incorrectly
-		  if (HAL_UART_Transmit(&huart2, (uint8_t*)&sendData, 1, 2000) != HAL_OK) {
-			  fprintf(stderr, "Error: Message is not sent correctly\n");
-			  return -1;
-		  }
-		  // receive the feedback
-		  receiveData = '\0';
-		  if (HAL_UART_Receive(&huart2, (uint8_t*)&receiveData, 1, 3000) == HAL_OK) {
-			  if (receiveData == '1') {
-				  HAL_GPIO_WritePin(GPIOA, led_Pin, GPIO_PIN_SET);
-				  HAL_Delay(1000 * 60);
-				  HAL_GPIO_WritePin(GPIOA, led_Pin, GPIO_PIN_RESET);
-			  } else {
-				  fprintf(stderr, "Error: The feedback is incorrect\n");
-				  return -1;
-			  }
-		  } else {
-			  fprintf(stderr, "Error: Didn't receive feedback\n");
-			  return -1;
-		  }
-	  }
+
     /* USER CODE BEGIN 3 */
-  }
+   }
   /* USER CODE END 3 */
 }
 
@@ -149,9 +162,9 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSI;
-  RCC_OscInitStruct.PLL.PLLM = 16;
-  RCC_OscInitStruct.PLL.PLLN = 336;
-  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV4;
+  RCC_OscInitStruct.PLL.PLLM = 8;
+  RCC_OscInitStruct.PLL.PLLN = 72;
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
   RCC_OscInitStruct.PLL.PLLQ = 7;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
@@ -174,35 +187,35 @@ void SystemClock_Config(void)
 }
 
 /**
-  * @brief USART2 Initialization Function
+  * @brief USART1 Initialization Function
   * @param None
   * @retval None
   */
-static void MX_USART2_UART_Init(void)
+static void MX_USART1_UART_Init(void)
 {
 
-  /* USER CODE BEGIN USART2_Init 0 */
+  /* USER CODE BEGIN USART1_Init 0 */
 
-  /* USER CODE END USART2_Init 0 */
+  /* USER CODE END USART1_Init 0 */
 
-  /* USER CODE BEGIN USART2_Init 1 */
+  /* USER CODE BEGIN USART1_Init 1 */
 
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
+  /* USER CODE END USART1_Init 1 */
+  huart1.Instance = USART1;
+  huart1.Init.BaudRate = 9600;
+  huart1.Init.WordLength = UART_WORDLENGTH_8B;
+  huart1.Init.StopBits = UART_STOPBITS_1;
+  huart1.Init.Parity = UART_PARITY_NONE;
+  huart1.Init.Mode = UART_MODE_TX_RX;
+  huart1.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart1.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart1) != HAL_OK)
   {
     Error_Handler();
   }
-  /* USER CODE BEGIN USART2_Init 2 */
+  /* USER CODE BEGIN USART1_Init 2 */
 
-  /* USER CODE END USART2_Init 2 */
+  /* USER CODE END USART1_Init 2 */
 
 }
 
@@ -224,6 +237,9 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(test_led_GPIO_Port, test_led_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, led_Pin|LD2_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : B1_Pin */
@@ -232,11 +248,26 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
+  /*Configure GPIO pin : test_led_Pin */
+  GPIO_InitStruct.Pin = test_led_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(test_led_GPIO_Port, &GPIO_InitStruct);
+
   /*Configure GPIO pin : button_Pin */
   GPIO_InitStruct.Pin = button_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(button_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PA2 PA3 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF7_USART2;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : led_Pin LD2_Pin */
   GPIO_InitStruct.Pin = led_Pin|LD2_Pin;
