@@ -1332,3 +1332,17 @@ arm-none-eabi-size  Receiver.elf
   14952	    104	   2008	  17064	   42a8	Receiver.elf
 Finished building: default.size.stdout
  
+15:10:20 **** Build of configuration Debug for project Receiver ****
+make -j24 all 
+arm-none-eabi-size  Receiver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  14952	    104	   2008	  17064	   42a8	Receiver.elf
+Finished building: default.size.stdout
+ 
+15:13:13 **** Incremental Build of configuration Debug for project Receiver ****
+make -j24 all 
+arm-none-eabi-size  Receiver.elf 
+   text	   data	    bss	    dec	    hex	filename
+  14952	    104	   2008	  17064	   42a8	Receiver.elf
+Finished building: default.size.stdout
+ 

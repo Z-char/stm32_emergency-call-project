@@ -3688,7 +3688,7 @@
 				(hide yes)
 			)
 		)
-		(property "Value" "HM-10"
+		(property "Value" "HC-05"
 			(at 213.36 88.646 0)
 			(effects
 				(font
