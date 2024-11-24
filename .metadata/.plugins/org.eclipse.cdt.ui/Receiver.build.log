@@ -1,10 +1,29 @@
-15:13:13 **** Incremental Build of configuration Debug for project Receiver ****
+16:51:07 **** Incremental Build of configuration Debug for project Receiver ****
 make -j24 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F401xE -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:130:19: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+  130 |                   printf("Receive timeout\n");
+      |                   ^~~~~~
+../Core/Src/main.c:21:1: note: include '<stdio.h>' or provide a declaration of 'printf'
+   20 | #include "main.h"
+  +++ |+#include <stdio.h>
+   21 | 
+../Core/Src/main.c:130:19: warning: incompatible implicit declaration of built-in function 'printf' [-Wbuiltin-declaration-mismatch]
+  130 |                   printf("Receive timeout\n");
+      |                   ^~~~~~
+../Core/Src/main.c:130:19: note: include '<stdio.h>' or provide a declaration of 'printf'
+arm-none-eabi-g++ -o "Receiver.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\STM_WorkSpace\Receiver\STM32F401RETX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Receiver.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+Finished building target: Receiver.elf
+ 
 arm-none-eabi-size  Receiver.elf 
+arm-none-eabi-objdump -h -S Receiver.elf  > "Receiver.list"
    text	   data	    bss	    dec	    hex	filename
-  14952	    104	   2008	  17064	   42a8	Receiver.elf
+  14992	    104	   2008	  17104	   42d0	Receiver.elf
 Finished building: default.size.stdout
  
+Finished building: Receiver.list
+ 
 
-15:13:14 Build Finished. 0 errors, 0 warnings. (took 261ms)
+16:51:08 Build Finished. 0 errors, 2 warnings. (took 800ms)
 

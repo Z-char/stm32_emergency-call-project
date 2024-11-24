@@ -114,13 +114,16 @@ int main(void)
 			  if (HAL_UART_Transmit(&huart1, (uint8_t*)&sendData, 1, 1000) != HAL_OK) {
 				  log_error_to_flash(1);
 			  }
-			  for (int i = 0; i < 30; ++i) {
-				  HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_SET);
-				  HAL_GPIO_WritePin(led_GPIO_Port, led_Pin, GPIO_PIN_SET);
-				  HAL_Delay(1000);
-				  HAL_GPIO_WritePin(led_GPIO_Port, led_Pin, GPIO_PIN_RESET);
-				  HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_RESET);
-				  HAL_Delay(1000);
+			  int Hz = 4;
+			  for (int i = 0; i < 60; ++i) {
+				  for (int j = 0; j < Hz; ++j) {
+					  HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_SET);
+					  HAL_GPIO_WritePin(led_GPIO_Port, led_Pin, GPIO_PIN_SET);
+					  HAL_Delay(500 / Hz);
+					  HAL_GPIO_WritePin(led_GPIO_Port, led_Pin, GPIO_PIN_RESET);
+					  HAL_GPIO_WritePin(buzzer_GPIO_Port, buzzer_Pin, GPIO_PIN_RESET);
+					  HAL_Delay(500 / Hz);
+				  }
 			  }
 		  }
 	  } else {
