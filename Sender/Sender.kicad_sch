@@ -3120,12 +3120,6 @@
 		(uuid "8ec64451-8755-4d47-9e8c-37f2a2612fb2")
 	)
 	(junction
-		(at 106.68 30.48)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "9e1f2a4c-bf44-43c2-b0ca-87e0988c8915")
-	)
-	(junction
 		(at 170.18 30.48)
 		(diameter 0)
 		(color 0 0 0 0)
@@ -3136,6 +3130,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "a6b0fc70-138f-48fc-abd4-e9c876eee36f")
+	)
+	(junction
+		(at 109.22 30.48)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b33dfd77-fff7-4aec-8d5c-df31baab4808")
 	)
 	(wire
 		(pts
@@ -3265,6 +3265,17 @@
 	)
 	(wire
 		(pts
+			(xy 109.22 30.48) (xy 170.18 30.48)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 255 0 0 1)
+		)
+		(uuid "970e3266-04fb-4046-abc4-e4661b1efdcf")
+	)
+	(wire
+		(pts
 			(xy 142.24 83.82) (xy 189.23 83.82)
 		)
 		(stroke
@@ -3356,7 +3367,7 @@
 	)
 	(wire
 		(pts
-			(xy 106.68 30.48) (xy 170.18 30.48)
+			(xy 41.91 30.48) (xy 109.22 30.48)
 		)
 		(stroke
 			(width 0)
@@ -3388,28 +3399,6 @@
 	)
 	(wire
 		(pts
-			(xy 41.91 30.48) (xy 106.68 30.48)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 255 0 0 1)
-		)
-		(uuid "e317aab6-c0e6-43ad-a3f2-83478cd096ea")
-	)
-	(wire
-		(pts
-			(xy 106.68 30.48) (xy 106.68 45.72)
-		)
-		(stroke
-			(width 0)
-			(type default)
-			(color 255 0 0 1)
-		)
-		(uuid "f1ba8cd7-d01d-40b1-be94-bab3d86770ee")
-	)
-	(wire
-		(pts
 			(xy 233.68 30.48) (xy 241.3 30.48)
 		)
 		(stroke
@@ -3418,6 +3407,17 @@
 			(color 255 0 0 1)
 		)
 		(uuid "f4f3a38f-f528-478f-9210-c09e2035e4a9")
+	)
+	(wire
+		(pts
+			(xy 109.22 30.48) (xy 109.22 45.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+			(color 255 0 0 1)
+		)
+		(uuid "fce4b85d-e590-415d-9c31-19fb2f7f27e5")
 	)
 	(text "Green LED"
 		(exclude_from_sim no)
