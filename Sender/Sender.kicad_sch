@@ -6,7 +6,7 @@
 	(paper "A4")
 	(title_block
 		(title "Sender STM32")
-		(date "2024-10-27")
+		(date "2024-11-7")
 		(company "Daniel Suzuki & Charlie Zhang")
 	)
 	(lib_symbols
